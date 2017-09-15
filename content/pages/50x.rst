@@ -1,6 +1,7 @@
-Title: Server Error
-Status: hidden
-Save_as: 50x.html
+:Title: Server Error
+:Status: hidden
+:Slug: 50x
+:Save_as: 50x.html
 
 A server error has occured. This message is basically useless.
 Sorry :(
