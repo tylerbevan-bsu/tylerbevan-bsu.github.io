@@ -1,0 +1,108 @@
+Machine Learning in Heuristics
+##############################
+
+:Date: 2017-11-26
+:Modified: 2017-11-26
+:Category: AI
+:Slug: machinelearning
+:Authors: Tyler Bevan
+:Summary: Using Machine Learning to develop Anti-Virus Heuristics.
+
+Due to a recent interest in AI and machine learning, I decided to learn more
+about the usage of machine learning for behavioral analysis of malware. Because
+many malware detection systems use heuristics to identify new and unknown
+threats, it makes sense that the heuristic could be developed as a classifier
+using machine learning techniques. However, there are issues that make this
+use difficult. Some recent research shows promise, but machine learning is
+not yet sufficient to replace current heuristic approaches.
+
+In malware detection, there are two main types of detection, pattern-based
+and heuristic-based. Pattern-based is very effective at catching known malware
+because it knows what to look for. If we draw a parallel to catching criminals,
+it's like having a photo of every known criminal and doing facial recognition
+on everyone. It's effective, but only if you know who to look for. Heuristic
+based systems look for certain attributes of files and watch their behavior
+to decide if the file is malware. This is a good compliment to pattern matching
+as it can catch previously unknown malware. However, this technique is highly
+sensitive to the quality of the heuristics used. Too broad and you get false
+positives, too narrow and you don't catch anything. Because the whole problem
+is based on categorizing files into malware and not malware, the machine learning
+algorithms known as classifiers are a perfect fit. In theory, with enough
+accurate training data you can create a very accurate heuristic.
+
+There are several difficulties that have made implementing these systems difficult.
+One study found that using the J48 decision tree could produce an accuracy of almost
+95 percent.[1] This sounds high, but modern malware detection systems need to have
+near 100 percent accuracy to be useful. Considering having many hundreds of
+thousands of files on a system, 95% will lead to a lot of false positives. That
+results in alert flooding, which is a serious problem. If your antivirus pops
+up constantly, you will either hit allow without reading the warning or remove
+the utility outright.
+
+One of the problems with machine learning is that there is never enough high
+quality training data. The article mentioned above only used some ~550 files,
+with about half being malicious. The files were all PE Windows executables.
+This is not a particularly large training set, enough for research but not for
+production. If we want to use machine learning for real world purposes, we will
+need a much larger dataset. The data must also meet certain criteria. A study
+done at the US Naval Academy found that the ratio of classes in the training
+data need to be similar to what is found in the wild.[2] 
+
+This is contrary to the commonly held belief that the accuracy of the classifier is independent of
+differences between the ratios in the training and testing data. This study
+noted a drastic drop in performance when using mismatched data. The first
+study used about 50/50 good and bad files for both the training and the test,
+so this problem would never have come up in those tests. Another important
+note is the fact that both of these studies were entirely based on the file's
+metadata and header information. While this is fast and has potential to be
+useful, it remains to be seen how easy it would be for malware to hide itself
+behind valid and seemingly harmless metadata and headers.
+
+As I consider this problem, I wonder if this problem could be blended with the
+current trend towards so-called cloud computing. There are several 'cloud-based'
+antivirus solutions available today. For example Immunet_ is backed and hosted by
+Cisco and supported by their Talos group. However, these services are using the
+same techniques as traditional client-side solutions. They are simply run in
+the cloud, with only file signatures generated locally. Because these services
+process huge amounts of files on a constant basis, they could be a source of
+a huge amount of training data for a machine learning system. For example, one
+service_ boasts 200,000 new files scanned daily with 10,000 being malware. 
+With this much data, it seems possible to develop an accurate system.
+
+This would also have its own barriers however. Most of these systems only upload files
+that are suspicious, which would skew the ratio of clean to unclean files away
+from the real-world case. However, if the input to the algorithm uses the same
+ratio the problem will be greatly reduced. In any case, it seems unlikely that
+this system would be used as a replacement for existing systems. It would most
+probably be used as a supplement to existing systems, which are already quite
+accurate. Existing systems already use sandbox testing and behavioral analysis,
+which catches a large amount of new and unknown malware.
+
+If current systems are so good, why bother with developing new techniques? The
+answer lies in the fact that the number of potential attack vectors are growing
+faster than security experts can keep up. With the explosion of the IoT movement,
+the amount of internet connected devices will skyrocket. With it, the amount of
+malware floating around will increase. Because this growth will quickly outrun
+the capacity of security firms to detect and protect against, automated threat
+detection and analysis systems need to be developed. 
+
+Some systems defend against unknown threats by enforcing mandatory access control,
+which prevents any application from doing anything it shouldn't. This works, but
+only as long as you can clearly define what a program is allowed to do. In addition,
+this does not prevent malware from injecting itself into valid softwares and
+interfering with its work.
+
+All things considered, I think that the use of machine learning and AI algorithms in 
+anti-malware environments is needed and unavoidable. My lack of knowledge about this
+topic may have led me to be overly optimistic, but I think that that can lead to new
+ideas. Hopefully, the problems are solved before the malware gets ahead of us.
+
+- Tyler Bevan
+
+[1] Analysis of Machine learning Techniques Used in Behavior-Based Malware Detection : http://www.dtic.mil/docs/citations/ADA619747
+
+
+[2] Machine Learning Based Malware Detection : http://ieeexplore.ieee.org/abstract/document/5675808/
+
+.. _Immunet: http://www.immunet.com/index
+.. _service: https://www.avira.com/en/avira-protection-cloud
